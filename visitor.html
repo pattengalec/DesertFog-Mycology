@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Fun Guy Fungi</title>
+<title>Desert Fog Mycology</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
@@ -224,7 +224,7 @@
 <div id="app">
   <div class="topbar">
     <button class="iconbtn" onclick="openMenu()">&#9776;</button>
-    <span class="title" id="bar-title">Fun Guy Fungi</span>
+    <span class="title" id="bar-title">Desert Fog Mycology</span>
     <span data-lang-switch></span>
   </div>
 
@@ -251,8 +251,8 @@
         </button>
       </div>
       <div class="about-farm" style="margin-top:26px;padding:16px 18px;background:var(--mist);border:1px solid var(--card-border);border-radius:var(--radius,10px)">
-        <h3 style="margin:0 0 8px;font-family:var(--font-head);font-size:1.05rem;color:var(--ink)" data-i18n="about.title">About Fun Guy Fungi</h3>
-        <p style="margin:0;font-size:.9rem;line-height:1.55;color:var(--ink-soft)" data-i18n="about.body">Fun Guy Fungi is a container mushroom farm in Riverside, California &mdash; a single 40-foot shipping container designed to grow gourmet and functional mushrooms year-round, from substrate and inoculation through fruiting and harvest, run by one operator. Heat-loving species in summer, cool-fruiting species in winter.</p>
+        <h3 style="margin:0 0 8px;font-family:var(--font-head);font-size:1.05rem;color:var(--ink)" data-i18n="about.title">About Desert Fog Mycology</h3>
+        <p style="margin:0;font-size:.9rem;line-height:1.55;color:var(--ink-soft)" data-i18n="about.body">Desert Fog Mycology is a container mushroom farm in Riverside, California &mdash; a single 40-foot shipping container designed to grow gourmet and functional mushrooms year-round, from substrate and inoculation through fruiting and harvest, run by one operator. Heat-loving species in summer, cool-fruiting species in winter.</p>
       </div>
     </section>
 
@@ -319,12 +319,12 @@ var SUPABASE_ANON='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIs
 var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
 
-var TITLES={hub:'Fun Guy Fungi',see:'See',learn:'Learn',do:'Do',share:'Share'};
+var TITLES={hub:'Desert Fog Mycology',see:'See',learn:'Learn',do:'Do',share:'Share'};
 function show(scr){
   document.querySelectorAll('.screen').forEach(function(s){ s.classList.remove('active'); });
   var el=document.getElementById('screen-'+scr); if(el) el.classList.add('active');
   window.curScreen=scr;
-  document.getElementById('bar-title').textContent=(scr==='hub'?'Fun Guy Fungi':t('tile.'+scr))||'Fun Guy Fungi';
+  document.getElementById('bar-title').textContent=(scr==='hub'?'Desert Fog Mycology':t('tile.'+scr))||'Desert Fog Mycology';
   document.querySelector('main').scrollTop=0;
   if(scr==='see') loadPhotos();
   if(scr==='share'){ loadComments(); loadDonation(); }
@@ -743,7 +743,7 @@ function sharePlan(){
     lines.push('Plant during: '+(p.planting_windows||''));
     lines.push('Water: '+(p.watering_plans||''));
   }
-  lines.push('\u2014 Fun Guy Fungi · managed by grush');
+  lines.push('\u2014 Desert Fog Mycology · managed by grush');
   var text=lines.join('\n');
   if(navigator.share){ navigator.share({title:p.plant_name+' grow plan', text:text}).catch(function(){}); }
   else { window.print(); }
@@ -778,7 +778,7 @@ function printPlan(){
   });
   var rowsHtml=''; rows.forEach(function(r){ rowsHtml+='<tr><td class="k">'+esc(r[0])+'</td><td>'+esc(r[1])+'</td></tr>'; });
   var css='body{font-family:Georgia,serif;color:#23262b;margin:32px;line-height:1.5}h1{margin:0 0 2px;font-size:26px}.bot{font-style:italic;color:#5f6a72}.type{color:#8f2228;font-weight:bold;letter-spacing:1px;text-transform:uppercase;font-size:12px;margin:4px 0 18px}h2{font-size:13px;letter-spacing:1px;text-transform:uppercase;color:#8f2228;border-bottom:1px solid #ddd;padding-bottom:4px;margin:22px 0 8px}table{width:100%;border-collapse:collapse;margin-bottom:8px}td{padding:6px 4px;vertical-align:top;border-bottom:1px solid #eee;font-size:14px}td.k{width:42%;color:#5f6a72;font-weight:bold}td.d{width:34%;color:#5f6a72}.foot{margin-top:28px;padding-top:10px;border-top:1px solid #ddd;font-size:11px;color:#8a857a;text-align:center}';
-  var html='<!DOCTYPE html><html><head><meta charset="utf-8"><title>'+esc(p.plant_name)+' — grow plan</title><style>'+css+'</style></head><body><h1>'+esc(p.plant_name)+'</h1>'+(p.botanical_name?'<div class="bot">'+esc(p.botanical_name)+'</div>':'')+'<div class="type">'+(perennial?'Perennial':'Annual')+' · grow plan</div><table>'+rowsHtml+'</table>'+(tl?'<h2>Timeline</h2><table>'+tl+'</table>':'')+'<div class="foot">Fun Guy Fungi · managed by grush · funguyfungi.org</div></body></html>';
+  var html='<!DOCTYPE html><html><head><meta charset="utf-8"><title>'+esc(p.plant_name)+' — grow plan</title><style>'+css+'</style></head><body><h1>'+esc(p.plant_name)+'</h1>'+(p.botanical_name?'<div class="bot">'+esc(p.botanical_name)+'</div>':'')+'<div class="type">'+(perennial?'Perennial':'Annual')+' · grow plan</div><table>'+rowsHtml+'</table>'+(tl?'<h2>Timeline</h2><table>'+tl+'</table>':'')+'<div class="foot">Desert Fog Mycology · managed by grush · funguyfungi.org</div></body></html>';
   var ifr=document.getElementById('lfg-print-frame'); if(ifr) ifr.parentNode.removeChild(ifr);
   ifr=document.createElement('iframe'); ifr.id='lfg-print-frame'; ifr.style.cssText='position:fixed;right:0;bottom:0;width:0;height:0;border:0;';
   document.body.appendChild(ifr);
@@ -789,7 +789,7 @@ function printPlan(){
 var LANGS=['en','es','fr','pt'], LNAMES={en:'English',es:'Espa\u00f1ol',fr:'Français',pt:'Portugu\u00eas'}, LSHORT={en:'EN',es:'ES',fr:'FR',pt:'PT'};
 function refreshBarTitle(){
   var scr=window.curScreen; if(!scr) return;
-  document.getElementById('bar-title').textContent=(scr==='hub'?'Fun Guy Fungi':t('tile.'+scr))||'Fun Guy Fungi';
+  document.getElementById('bar-title').textContent=(scr==='hub'?'Desert Fog Mycology':t('tile.'+scr))||'Desert Fog Mycology';
 }
 window.onLangChange=function(l){ refreshBarTitle(); };
 </script>
