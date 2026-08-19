@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Desert Fog Mycology — Revenue Model</title>
+<style>
+  :root {
+    --bg: #F3EFE6;
+    --card: #FFFFFF;
+    --ink: #2B2A26;
+    --ink-soft: #6B6A63;
+    --moss: #4B6B3F;
+    --moss-dark: #33492B;
+    --clay: #B4602F;
+    --gold: #C9A227;
+    --line: #DCD6C6;
+    --track: #E4DFD1;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    padding: 28px 18px 48px;
+  }
+  .wrap { max-width: 460px; margin: 0 auto; }
+  .eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--moss);
+    font-weight: 600;
+    margin: 0 0 4px;
+  }
+  h1 { font-size: 24px; line-height: 1.25; margin: 0 0 6px; font-weight: 700; }
+  .sub { font-size: 14px; color: var(--ink-soft); margin: 0 0 22px; line-height: 1.5; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+  .species-block { margin-bottom: 24px; }
+  .species-block:last-child { margin-bottom: 4px; }
+  .species-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .dot-lg { width: 11px; height: 11px; border-radius: 3px; flex-shrink: 0; }
+  .species-name { font-size: 15px; font-weight: 700; }
+  .species-price { font-size: 12px; color: var(--ink-soft); margin-left: auto; }
+  .control { margin-bottom: 10px; }
+  .control-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+  .control-label { font-size: 13px; color: var(--ink-soft); }
+  .control-value { font-size: 14px; font-weight: 700; color: var(--ink); }
+  input[type=range] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px;
+    border-radius: 3px;
+    background: var(--track);
+    outline: none;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--moss); border: 3px solid #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.25); cursor: pointer;
+  }
+  input[type=range]::-moz-range-thumb {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--moss); border: 3px solid #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.25); cursor: pointer; border: none;
+  }
+  .fixed-row { margin-top: 18px; padding-top: 18px; border-top: 1px solid var(--line); }
+  .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .stat { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; }
+  .stat.profit { border-color: var(--moss); background: #F1F6EC; }
+  .stat-label { font-size: 12px; color: var(--ink-soft); margin: 0 0 4px; }
+  .stat-value { font-size: 21px; font-weight: 700; margin: 0; }
+  .stat.profit .stat-value { color: var(--moss-dark); }
+  .target-note { font-size: 13px; color: var(--ink-soft); text-align: center; margin: 14px 0 0; }
+  .target-note b { color: var(--ink); }
+  .total-yield { font-size: 13px; color: var(--ink-soft); text-align: center; margin: 0 0 14px; }
+  .total-yield b { color: var(--ink); }
+  .chart-wrap { position: relative; height: 200px; margin-top: 6px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 12px; font-size: 12px; color: var(--ink-soft); }
+  .legend span { display: flex; align-items: center; gap: 6px; }
+  .dot { width: 9px; height: 9px; border-radius: 2px; display: inline-block; }
+  .footer-note { font-size: 12px; color: var(--ink-soft); line-height: 1.6; text-align: center; margin-top: 22px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Desert Fog Mycology</p>
+  <h1>Species mix vs. target</h1>
+  <p class="sub">Set weekly output for each species. Prices are blended restaurant-supplier rates for each — see how the mix adds up against your target.</p>
+
+  <div class="card">
+    <div class="species-block">
+      <div class="species-title">
+        <span class="dot-lg" style="background:#4B6B3F"></span>
+        <span class="species-name">Oyster</span>
+        <span class="species-price">$6.50/lb · $3.00/lb to grow</span>
+      </div>
+      <div class="control">
+        <div class="control-head">
+          <span class="control-label">Weekly yield</span>
+          <span class="control-value" id="oyster-out">210 lbs</span>
+        </div>
+        <input type="range" min="0" max="400" step="10" value="210" id="oyster">
+      </div>
+    </div>
+
+    <div class="species-block">
+      <div class="species-title">
+        <span class="dot-lg" style="background:#C9A227"></span>
+        <span class="species-name">Shiitake</span>
+        <span class="species-price">$9.00/lb · $4.00/lb to grow</span>
+      </div>
+      <div class="control">
+        <div class="control-head">
+          <span class="control-label">Weekly yield</span>
+          <span class="control-value" id="shiitake-out">88 lbs</span>
+        </div>
+        <input type="range" min="0" max="400" step="10" value="88" id="shiitake">
+      </div>
+    </div>
+
+    <div class="species-block">
+      <div class="species-title">
+        <span class="dot-lg" style="background:#B4602F"></span>
+        <span class="species-name">Lion's mane</span>
+        <span class="species-price">$12.00/lb · $4.50/lb to grow</span>
+      </div>
+      <div class="control">
+        <div class="control-head">
+          <span class="control-label">Weekly yield</span>
+          <span class="control-value" id="lionsmane-out">52 lbs</span>
+        </div>
+        <input type="range" min="0" max="400" step="10" value="52" id="lionsmane">
+      </div>
+    </div>
+
+    <div class="fixed-row">
+      <div class="control">
+        <div class="control-head">
+          <span class="control-label">Fixed costs / month</span>
+          <span class="control-value" id="fixed-out">$800</span>
+        </div>
+        <input type="range" min="200" max="2000" step="50" value="800" id="fixed">
+      </div>
+    </div>
+  </div>
+
+  <p class="total-yield">Total weekly yield: <b id="total-lbs-week">350 lbs</b> (single-container guideline: 300–400 lbs/week)</p>
+
+  <div class="stats">
+    <div class="stat">
+      <p class="stat-label">Annual revenue</p>
+      <p class="stat-value" id="revenue">$0</p>
+    </div>
+    <div class="stat profit">
+      <p class="stat-label">Annual profit</p>
+      <p class="stat-value" id="profit">$0</p>
+    </div>
+    <div class="stat">
+      <p class="stat-label">Profit margin</p>
+      <p class="stat-value" id="margin">0%</p>
+    </div>
+    <div class="stat">
+      <p class="stat-label">Lbs sold / year</p>
+      <p class="stat-value" id="lbs">0</p>
+    </div>
+  </div>
+
+  <p class="target-note">Target: <b>$145,600</b> revenue/year (midrange scenario) &nbsp;·&nbsp; currently <b id="target-pct">0%</b> of target</p>
+
+  <div class="card" style="margin-top:16px;">
+    <div class="chart-wrap">
+      <canvas id="chart" role="img" aria-label="Bar chart comparing annual revenue, variable costs, fixed costs, and profit"></canvas>
+    </div>
+    <div class="legend">
+      <span><span class="dot" style="background:#4B6B3F"></span>Revenue</span>
+      <span><span class="dot" style="background:#B4602F"></span>Variable costs</span>
+      <span><span class="dot" style="background:#C9A227"></span>Fixed costs</span>
+      <span><span class="dot" style="background:#33492B"></span>Profit</span>
+    </div>
+  </div>
+
+  <p class="footer-note">Default mix (210 / 88 / 52 lbs weekly for oyster / shiitake / lion's mane) totals 350 lbs/week — Chad's midrange target — and sets the $145,600/year revenue target line above. Per-lb prices and grow costs are blended restaurant-supplier estimates, not confirmed figures yet.</p>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+  const oyster = document.getElementById('oyster');
+  const shiitake = document.getElementById('shiitake');
+  const lionsmane = document.getElementById('lionsmane');
+  const fixed = document.getElementById('fixed');
+  const TARGET = 145600;
+
+  const PRICE = { oyster: 6.5, shiitake: 9.0, lionsmane: 12.0 };
+  const COST = { oyster: 3.0, shiitake: 4.0, lionsmane: 4.5 };
+
+  const fmt = (n) => '$' + Math.round(n).toLocaleString();
+  let chart;
+
+  function compute() {
+    const o = parseFloat(oyster.value);
+    const s = parseFloat(shiitake.value);
+    const l = parseFloat(lionsmane.value);
+    const fc = parseFloat(fixed.value);
+
+    document.getElementById('oyster-out').textContent = Math.round(o) + ' lbs';
+    document.getElementById('shiitake-out').textContent = Math.round(s) + ' lbs';
+    document.getElementById('lionsmane-out').textContent = Math.round(l) + ' lbs';
+    document.getElementById('fixed-out').textContent = '$' + Math.round(fc);
+
+    const totalWeekly = o + s + l;
+    document.getElementById('total-lbs-week').textContent = Math.round(totalWeekly) + ' lbs';
+
+    const annualLbs = totalWeekly * 52;
+    const revenue = (o * PRICE.oyster + s * PRICE.shiitake + l * PRICE.lionsmane) * 52;
+    const variableCosts = (o * COST.oyster + s * COST.shiitake + l * COST.lionsmane) * 52;
+    const fixedCosts = fc * 12;
+    const profit = revenue - variableCosts - fixedCosts;
+    const margin = revenue > 0 ? (profit / revenue) * 100 : 0;
+    const targetPct = (revenue / TARGET) * 100;
+
+    document.getElementById('revenue').textContent = fmt(revenue);
+    document.getElementById('profit').textContent = fmt(profit);
+    document.getElementById('margin').textContent = Math.round(margin) + '%';
+    document.getElementById('lbs').textContent = Math.round(annualLbs).toLocaleString();
+    document.getElementById('target-pct').textContent = Math.round(targetPct) + '%';
+
+    if (chart) {
+      chart.data.datasets[0].data = [revenue, variableCosts, fixedCosts, profit];
+      chart.update();
+    }
+  }
+
+  const ctx = document.getElementById('chart');
+  chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Revenue', 'Var. costs', 'Fixed costs', 'Profit'],
+      datasets: [{
+        data: [0, 0, 0, 0],
+        backgroundColor: ['#4B6B3F', '#B4602F', '#C9A227', '#33492B'],
+        borderRadius: 5,
+        maxBarThickness: 42
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: { callbacks: { label: (c) => '$' + Math.round(c.raw).toLocaleString() } }
+      },
+      scales: {
+        y: {
+          ticks: { callback: (v) => '$' + (v/1000) + 'k', color: '#6B6A63', font: { size: 11 } },
+          grid: { color: '#DCD6C6' }
+        },
+        x: { ticks: { color: '#6B6A63', font: { size: 11 } }, grid: { display: false } }
+      }
+    }
+  });
+
+  [oyster, shiitake, lionsmane, fixed].forEach(el => el.addEventListener('input', compute));
+  compute();
+</script>
+</body>
+</html>
